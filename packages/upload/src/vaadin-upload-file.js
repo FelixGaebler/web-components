@@ -21,20 +21,21 @@ registerStyles('vaadin-upload-file', uploadFileStyles, { moduleId: 'vaadin-uploa
  *
  * The following shadow DOM parts are available for styling:
  *
- * Part name        | Description
- * -----------------|-------------
- * `row`            | File container
- * `info`           | Container for file status icon, file name, status and error messages
- * `done-icon`      | File done status icon
- * `warning-icon`   | File warning status icon
- * `meta`           | Container for file name, status and error messages
- * `name`           | File name
- * `error`          | Error message, shown when error happens
- * `status`         | Status message
- * `commands`       | Container for file command buttons
- * `start-button`   | Start file upload button
- * `retry-button`   | Retry file upload button
- * `remove-button`  | Remove file button
+ * Part name         | Description
+ * ------------------|-------------
+ * `row`             | File container
+ * `info`            | Container for file status icon, file name, status and error messages
+ * `done-icon`       | File done status icon
+ * `warning-icon`    | File warning status icon
+ * `meta`            | Container for file name, status and error messages
+ * `name`            | File name
+ * `error`           | Error message, shown when error happens
+ * `status`          | Status message
+ * `commands`        | Container for file command buttons
+ * `start-button`    | Start file upload button
+ * `retry-button`    | Retry file upload button
+ * `download-button` | Download file upload button
+ * `remove-button`   | Remove file button
  *
  * The following state attributes are available for styling:
  *
@@ -90,6 +91,15 @@ class UploadFile extends UploadFileMixin(ThemableMixin(ControllerMixin(PolymerEl
           ></button>
           <button
             type="button"
+            part="download-button"
+            file-event="file-download"
+            on-click="_fireFileEvent"
+            hidden$="[[!complete]]"
+            aria-label$="[[i18n.file.download]]"
+            aria-describedby="name"
+          ></button>
+          <button
+            type="button"
             part="remove-button"
             file-event="file-abort"
             on-click="_fireFileEvent"
@@ -110,6 +120,15 @@ class UploadFile extends UploadFileMixin(ThemableMixin(ControllerMixin(PolymerEl
   /**
    * Fired when the retry button is pressed. It is listened by `vaadin-upload`
    * which will start a new upload process of this file.
+   *
+   * @event file-retry
+   * @param {Object} detail
+   * @param {Object} detail.file file to retry upload of
+   */
+
+  /**
+   * Fired when the download button is pressed. It is listened by `vaadin-upload`
+   * which will download this file.
    *
    * @event file-retry
    * @param {Object} detail
